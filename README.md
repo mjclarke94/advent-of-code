@@ -7,29 +7,17 @@ Solutions for [Advent of Code](https://adventofcode.com/) in [Rust](https://www.
 <!--- advent_readme_stars table --->
 
 <!--- benchmarking table --->
+## Benchmarks
+
+| Day | Part 1 | Part 2 |
+| :---: | :---: | :---:  |
+| [Day 7](./src/bin/07.rs) | `322.7µs` | `310.7µs` |
+| [Day 8](./src/bin/08.rs) | `633.7µs` | `2.8ms` |
+
+**Total: 4.07ms**
+<!--- benchmarking table --->
 
 ---
-
-## Template setup
-
-This template supports all major OS (macOS, Linux, Windows).
-
-### Create your repository 📝
-
-1.  Open [the template repository](https://github.com/fspoettel/advent-of-code-rust) on Github.
-2.  Click [Use this template](https://github.com/fspoettel/advent-of-code-rust/generate) and create your repository.
-3.  Clone your repository to your computer.
-4.  If you are solving a previous year's advent of code, change the `AOC_YEAR` variable in `.cargo/config.toml` to reflect the year you are solving.
-
-### Setup rust 💻
-
-1.  Install the [Rust toolchain](https://www.rust-lang.org/tools/install).
-2.  (recommended) Install the [rust-analyzer](https://rust-analyzer.github.io/manual.html) extension for your code editor.
-3.  (optional) Install a native debugger. If you are using VS Code, [CodeLLDB](https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb) is a good option.
-
----
-
-✨ You can start solving puzzles now! Head to the [Usage section](#usage) to see how to use this template. If you like, you can configure [some optional features](#optional-template-features).
 
 ## Usage
 
