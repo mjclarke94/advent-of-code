@@ -202,7 +202,7 @@ mod tests {
 
         let cards: Vec<Hand> = input
             .split('\n')
-            .filter(|f| f.len() > 0)
+            .filter(|f| !f.is_empty())
             .map(|f| Hand::from_str(f).unwrap())
             .collect();
 
@@ -221,7 +221,7 @@ mod tests {
 
         let cards: Vec<Hand> = input
             .split('\n')
-            .filter(|f| f.len() > 0)
+            .filter(|f| !f.is_empty())
             .map(|f| Hand::from_str_wild(f).unwrap())
             .collect();
 
