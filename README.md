@@ -11,14 +11,15 @@ Solutions for [Advent of Code](https://adventofcode.com/) in [Rust](https://www.
 
 | Day | Part 1 | Part 2 |
 | :---: | :---: | :---:  |
-| [Day 1](./src/bin/01.rs) | `104.2µs` | `1.0ms` |
-| [Day 2](./src/bin/02.rs) | `36.1µs` | `35.7µs` |
-| [Day 3](./src/bin/03.rs) | `557.1µs` | `752.2µs` |
-| [Day 7](./src/bin/07.rs) | `327.5µs` | `328.2µs` |
-| [Day 8](./src/bin/08.rs) | `627.1µs` | `2.8ms` |
-| [Day 9](./src/bin/09.rs) | `408.0µs` | `410.2µs` |
+| [Day 1](./src/bin/01.rs) | `97.8µs` | `981.7µs` |
+| [Day 2](./src/bin/02.rs) | `35.7µs` | `35.0µs` |
+| [Day 3](./src/bin/03.rs) | `726.3µs` | `734.0µs` |
+| [Day 7](./src/bin/07.rs) | `322.8µs` | `313.6µs` |
+| [Day 8](./src/bin/08.rs) | `628.8µs` | `2.8ms` |
+| [Day 9](./src/bin/09.rs) | `422.4µs` | `397.1µs` |
+| [Day 10](./src/bin/10.rs) | `248.1µs` | `274.6µs` |
 
-**Total: 7.39ms**
+**Total: 8.02ms**
 <!--- benchmarking table --->
 
 ---
