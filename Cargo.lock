@@ -27,6 +27,7 @@ dependencies = [
  "grid",
  "indicatif",
  "itertools",
+ "num-integer",
  "pico-args",
  "rayon",
  "regex",
@@ -277,6 +278,16 @@ checksum = "fd7c5ba1c3b5a23418d7bbf98c71c3d4946a0125002129231da8d6b723d559cb"
 dependencies = [
  "once_cell",
  "sys-info",
+]
+
+[[package]]
+name = "num-integer"
+version = "0.1.45"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "225d3389fb3509a24c93f5c29eb6bde2586b98d9f016636dff58d7c6f7569cd9"
+dependencies = [
+ "autocfg",
+ "num-traits",
 ]
 
 [[package]]
