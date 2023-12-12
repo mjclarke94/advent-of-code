@@ -3,7 +3,6 @@ advent_of_code::solution!(12);
 use std::str::FromStr;
 
 
-use itertools::Itertools;
 
 
 #[derive(Debug)]
@@ -11,7 +10,7 @@ enum SpringError {
     InvalidChar
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone)]
 enum Spring {
     Unknown,
     Damaged,
@@ -40,9 +39,7 @@ enum RowError {
 #[derive(Debug)]
 struct Row {
     springs: Vec<Spring>,
-    contiguous_damaged: Vec<usize>,
-    unknown: usize,
-    missing: usize
+    groups: Vec<usize>,
 }
 
 impl FromStr for Row {
@@ -52,59 +49,63 @@ impl FromStr for Row {
         let (spring_string, damage) = s.split_once(' ').unwrap();
 
         let springs: Vec<Spring> = spring_string.chars().map(|f| Spring::try_from(f).unwrap()).collect();
-        let contiguous_damaged: Vec<usize> = damage.split(',').map(|f| f.parse().unwrap()).collect();
+        let groups: Vec<usize> = damage.split(',').map(|f| f.parse().unwrap()).collect();
 
-        let unknown: usize = springs.iter().filter(|f| **f == Spring::Unknown).count();
-        let missing: usize = &contiguous_damaged.iter().sum() - springs.iter().filter(|f| **f == Spring::Damaged).count();
-
-        Ok(Row {springs, contiguous_damaged, unknown, missing})
+        Ok(Row {springs, groups})
     }
 }
 
 impl Row {
-    fn validate_ordering(&self, order: Vec<bool>) -> bool {
+    fn valid_orderings(&self) -> usize {
+        Self::recurse_ordering(&self.springs[..], &self.groups[..])
+    }
 
-        let mut unknown_idx: usize = 0;
-        let mut contiguous_count: usize = 0;
-        let mut contiguous: Vec<usize> = vec![];
+    fn recurse_ordering(springs: &[Spring], groups: &[usize]) -> usize {
 
-        for spring in self.springs.iter() {
-            match spring {
-                Spring::Damaged => {contiguous_count += 1},
-                Spring::Unknown if order[unknown_idx] => {contiguous_count += 1; unknown_idx += 1}, //damaged
-                Spring::Unknown => {
-                    if contiguous_count != 0 {
-                        contiguous.push(contiguous_count);
-                        contiguous_count = 0
-                    }
-                    unknown_idx += 1}, //operational
-                Spring::Operational => {
-                    if contiguous_count != 0 {
-                        contiguous.push(contiguous_count);
-                        contiguous_count = 0
-                    }
-                }                
+        if springs.is_empty() {
+            return match groups.is_empty() {
+                true => 1,
+                false => 0
             }
         }
 
-        if contiguous_count != 0 {contiguous.push(contiguous_count);}
+        match springs[0] {
+            Spring::Operational => Row::recurse_ordering(&springs[1..], groups),
+            Spring::Unknown => {
 
-        contiguous == self.contiguous_damaged
+                let mut vec_working: Vec<Spring> = Vec::with_capacity(springs.len());
+                let mut vec_damaged: Vec<Spring> = vec_working.clone();
 
-    }
-    
-    fn valid_orderings(&self) -> usize {
-        fn combinations(n: usize, m: usize) -> impl Iterator<Item = Vec<bool>> {
-            (0..n).combinations(m).map(move |indices| {
-                (0..n).map(|i| indices.contains(&i)).collect::<Vec<_>>()
-            })
+                vec_working.push(Spring::Operational);
+                vec_damaged.push(Spring::Damaged);  
+
+                vec_damaged.extend_from_slice(&springs[1..]);
+                vec_working.extend_from_slice(&springs[1..]);
+
+
+                let working = Row::recurse_ordering(&vec_working[..], groups);
+                let damaged = Row::recurse_ordering(&vec_damaged[..], groups);
+                working + damaged
+            },
+            Spring::Damaged => {
+                match (springs.len(), groups.len()) {
+                    // Check if out of DoF
+                    (_, 0) => 0, // No groups remaining to consume damaged springs - # | ()
+                    (s, _) if s < groups[0]  => 0, // Insufficient springs to satisfy next group # e.g. "##" (3, ..)
+                    (_, _) if springs[..groups[0]].iter().any(|f| f == &Spring::Operational)=> 0, // Non broken spring in group e.g. "##." (3, 1)
+
+                    // Ensure group doesn't overrun
+                    // If Damaged, zero. If 
+
+                    (s, 2..) if ((s < groups[0] + 1) || (springs[groups[0]] == Spring::Damaged)) => 0, // || short circuits
+                    (_, 2..) => Self::recurse_ordering(&springs[groups[0] + 1..], &groups[1..]),
+                    (_,_) => Self::recurse_ordering(&springs[groups[0]..], &groups[1..])
+                }
+            }
+            
         }
 
-
-
-        combinations(self.unknown, self.missing).map(|f| self.validate_ordering(f)).filter(|f| *f).count()
-
-
+    
     }
 
 
@@ -114,6 +115,7 @@ impl Row {
 pub fn part_one(input: &str) -> Option<usize> {
 
     let a: Vec<Row> = input.split('\n').filter(|f| !f.is_empty()).map(|f| Row::from_str(f).unwrap()).collect();
+
 
     
     Some(a.iter().map(|f| f.valid_orderings()).sum())
