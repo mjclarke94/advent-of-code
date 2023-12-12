@@ -16,6 +16,7 @@ dhat-heap = ["dhat"]
 
 [dependencies]
 anyhow = "1.0.75"
+cached = "0.46.1"
 counter = "0.5.7"
 dhat = { version = "0.3.2", optional = true }
 indicatif = {version = "0.17.7", features = ["rayon"]}
